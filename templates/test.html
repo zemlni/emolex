@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="static/styles/base.css"/>
+    <title>Paper Squares</title>
+</head>
+<body>
+<canvas id="myCanvas" width="600" height="600"></canvas>
+
+<script charset="utf-8" src="static/scripts/paper.js"></script>
+<script charset="utf-8" src="static/scripts/skip.js"></script>
+<script src="static/scripts/jquery-1.11.1.min.js"></script>
+<script charset="utf-8" type="text/paperscript" canvas="myCanvas">
+
+    function onMouseDown(event) {
+		// Code executed when the user presses the mouse
+		console.log(event.point);
+		console.log(getPolar(event.point).length);
+		console.log(getPolar(event.point).angle);
+
+        $.get("/getEmotion?distance=" + getPolar(event.point).length + "&angle=" + getPolar(event.point).angle, function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
+        });
+    }
+
+    function onMouseDrag(event) {
+	    // Code executed when the user drags the mouse
+    }
+
+    function onMouseUp(event) {
+	    // Code executed when the user releases the mouse
+    }
+
+	var location = new Point(view.center.getX(), view.center.getY());
+    var myCircle = new Path.Circle(location, 100);
+    var myCircle2 = new Path.Circle(location, 200);
+    var myCircle3 = new Path.Circle(location, 300);
+    myCircle.strokeColor = 'white';
+    myCircle2.strokeColor = 'white';
+    myCircle3.strokeColor = 'white';
+
+	function getPolar(point) {
+		var diff = point - location;
+		return diff;
+	}
+</script>
+</body>
+</html>
